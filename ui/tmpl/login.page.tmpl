@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <li><a href="/login">Log In</a></li>
+        {{if .IsAuthenticated}}
+        <li>
+            <form action="/user/logout" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </li>
+        {{end}}
+    </ul>
+    <form action="/user/login" method="post">
+        <h3>Login</h3>
+        {{with .ErrorsFromForm.default}}
+        <span>incorrect password or username</span>
+        {{end}}
+        <label for="username" class="form-label">Username:</label>
+        <input type="username" class="form-control" id="username" name="username" placeholder="Enter username" value="{{ .FormData.Get "username" }}">
+            {{ with .ErrorsFromForm.username }}
+                {{.}}
+            {{end}}
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" value="{{ .FormData.Get "password" }}">
+            {{ with .ErrorsFromForm.password }}
+                {{.}}
+            {{end}}
+        <button type="submit">Log In</button>
+    </form>
+</body>
+</html>
